@@ -11,12 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostsController@index');
+Route::get('/home', 'PostsController@index');
+Route::get('/posts', 'PostsController@index');
+Route::get('/posts/new', 'PostsController@create');
+Route::post('/posts', 'PostsController@store');
+Route::get('/posts/{post}', 'PostsController@show');
+Route::get('/posts/{post}/edit', 'PostsController@edit');
+Route::put('/posts/{post}', 'PostsController@update');
+Route::delete('/posts/{post}', 'PostsController@destroy');
+Route::get('/posts/{post}/destroy', 'PostsController@destroy');
 
-Route::get('/home', function() {
-    echo 'Home Route';
-});
+//Route::resource('posts', 'PostsController');
 
-Route::get('/articles', 'PostsController@index');
+Route::controllers([
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController'
+]);
