@@ -32,4 +32,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    protected $dates  = ['created_at', 'updated_at'];
+
+
+    //Aula 5.10
+    public function owner_projects() {
+        return $this->hasMany( 'App\Project', 'manager_user_id' );
+    }
+
+    public function projects() {
+        return $this->belongsToMany( 'App\Project', 'projects_users' )->withTimestamps();
+    }
 }

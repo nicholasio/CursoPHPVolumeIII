@@ -11,3 +11,11 @@
       Both of these plugins are recommended to enhance the
       user experience. Slimscroll is required when using the
       fixed layout. -->
+
+<script src="{{ asset('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}" type="text/javascript"></script>
+
+<script>
+      $(function() {
+            $(".textarea").wysihtml5();
+      });
+</script>

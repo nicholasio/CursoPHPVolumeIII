@@ -14,6 +14,8 @@ class Authenticate
      */
     protected $auth;
 
+    //Aula 5.2
+    protected $redirect_to = '/home';
     /**
      * Create a new filter instance.
      *

@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>LT</span>
+        <span class="logo-mini"><b>i</b>PM</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE Laravel </span>
+        <span class="logo-lg"><b>iProject</b>Manager </span>
     </a>
 
     <!-- Header Navbar -->
@@ -122,29 +122,17 @@
                         <li class="user-header">
                             <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                             <p>
-                                {{ Auth::user()->name }}
-                                <small>Member since Nov. 2012</small>
+                                <small>Membro desde {{ Auth::user()->created_at->format('d/m/Y à\s H:i:s') }}</small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </li>
+
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="{{ action('UsersController@edit', Auth::user()->id ) }}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ url('/auth/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                                <a href="{{ url('/auth/logout') }}" class="btn btn-default btn-flat">Sair do Sistema</a>
                             </div>
                         </li>
                     </ul>
