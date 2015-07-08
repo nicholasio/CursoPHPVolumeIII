@@ -2,14 +2,14 @@
 
 namespace App;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $fillable = ['title', 'description'];
+    use Searchable;
 
-    protected $dates    = ['created_at', 'updated_at'];
-
+    protected $fillable = ['title', 'description', 'manager_user_id', 'client_id'];
 
     public function client()
     {
@@ -24,6 +24,11 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany( 'App\User', 'projects_users' )->withTimestamps();
+    }
+
+    public function getUsersListAttribute()
+    {
+        return $this->users->lists('id')->toArray();
     }
 
 

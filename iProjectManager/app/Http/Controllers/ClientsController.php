@@ -20,9 +20,10 @@ class ClientsController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::all();
+        $search = $request->input('search');
+        $clients = Client::allOrSearch( 'name', $search )->paginate(10);
         return view('clients.index', compact('clients') );
     }
 
@@ -95,7 +96,7 @@ class ClientsController extends Controller
     public function destroy(Client $client)
     {
 
-        if ( $client->hasMany('App\Project') ) {
+        if ( $client->projects->count() > 0 ) {
             session()->flash('flash_message', 'Cliente não pode ser removido, pois tem projetos associados');
         } else {
             $client->delete();

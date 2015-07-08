@@ -19,17 +19,8 @@
                 <div class="box-header">
                     <h3 class="box-title">Lista de Usuários Cadastrados</h3>
 
-                    <div class="box-tools">
+                    @include('partials.search')
 
-                        <div class="input-group">
-                            <input type="text" placeholder="Search" style="width: 150px;"
-                                   class="form-control input-sm pull-right" name="table_search">
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
@@ -65,7 +56,7 @@
 
                                         @if ( Auth::user()->is_admin )
                                             {!! Form::open( [ 'route' => ['users.destroy', $user->id], 'method' => 'delete', 'style' => 'display:inline' ] ) !!}
-                                                {!! Form::submit('Deletar', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::submit('Deletar', ['class' => 'btn btn-danger no-submit', 'data-toggle' => "modal", 'data-target' => ".modal-danger"]) !!}
                                             {!! Form::close() !!}
                                         @endif
                                     </td>
@@ -73,8 +64,13 @@
                             @endforeach
                         </tbody>
                     </table>
+
+
                 </div>
                 <!-- /.box-body -->
+                <div class="box-footer">
+                    {!! $users->render() !!}
+                </div>
             </div>
         </div>
     </div>

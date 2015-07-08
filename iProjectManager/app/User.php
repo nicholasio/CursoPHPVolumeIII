@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Searchable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -10,7 +11,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, Searchable;
 
     /**
      * The database table used by the model.
@@ -33,10 +34,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
-    protected $dates  = ['created_at', 'updated_at'];
 
-
-    //Aula 5.10
     public function owner_projects() {
         return $this->hasMany( 'App\Project', 'manager_user_id' );
     }
@@ -44,4 +42,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function projects() {
         return $this->belongsToMany( 'App\Project', 'projects_users' )->withTimestamps();
     }
+
+    public function scopeIsAdmin($query)
+    {
+        return $query->where('is_admin', true);
+    }
+
+
 }

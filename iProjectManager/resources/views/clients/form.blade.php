@@ -8,7 +8,7 @@
 
 
     <div class="form-group">
-        {!! Form::label('description', "Email: ", ['class' => 'col-sm-2 control-label']) !!}
+        {!! Form::label('description', "Descrição: ", ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
             {!! Form::textarea('description', null, ['class' => 'form-control textarea', 'placeholder' => 'Descrição']) !!}
         </div>

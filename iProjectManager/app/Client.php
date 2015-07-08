@@ -2,13 +2,15 @@
 
 namespace App;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    use Searchable;
+
     protected $fillable = [ 'name', 'description' ];
 
-    protected $dates    = [ 'created_at', 'updated_at' ];
     public function projects()
     {
         return $this->hasMany( 'App\Project' );

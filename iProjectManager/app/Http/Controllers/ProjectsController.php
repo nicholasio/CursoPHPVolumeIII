@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\Http\Requests\ProjectRequest;
 use App\Project;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectsController extends Controller
 {
@@ -15,15 +19,23 @@ class ProjectsController extends Controller
     {
         $this->middleware('admin_auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
+        $search = $request->input('search');
+
+        if ( ! Auth::user()->is_admin ) {
+            $projects =  Auth::user()->projects()->allOrSearch( 'title', $search )->paginate(10);
+        } else {
+            $projects = Project::allOrSearch( 'title', $search )->paginate(10);
+        }
+
+
 
         return view('projects.index', compact('projects') );
     }
@@ -35,7 +47,11 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $manager_users      = User::IsAdmin()->get()->lists('name', 'id');
+        $users              = User::lists('name', 'id');
+        $clients            = Client::lists('name', 'id');
+
+        return view('projects.create', compact('users', 'manager_users', 'clients'));
     }
 
     /**
@@ -43,9 +59,17 @@ class ProjectsController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(ProjectRequest $projectRequest)
     {
-        //
+        $project = Project::create( $projectRequest->all() );
+
+        if ( $projectRequest->input('users_list') ) {
+            $project->users()->attach( $projectRequest->input('users_list') );
+        }
+
+        session()->flash('flash_message', 'Projeto Criado com Sucesso');
+
+        return redirect('projects');
     }
 
     /**
@@ -57,7 +81,7 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects.show', compact('project') );
     }
 
     /**
@@ -68,7 +92,12 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $manager_users      = User::IsAdmin()->get()->lists('name', 'id');
+        $users              = User::lists('name', 'id');
+
+        $clients            = Client::lists('name', 'id');
+
+        return view('projects.edit', compact('users', 'manager_users', 'clients', 'project') );
     }
 
     /**
@@ -77,9 +106,20 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Project $project)
+    public function update(Project $project, ProjectRequest $projectRequest)
     {
-        //
+        $project->update( $projectRequest->all() );
+
+        if ( $projectRequest->input('users_list') ) {
+            $project->users()->sync( $projectRequest->input('users_list') );
+        } else {
+            $project->users()->detach( $project->users->lists('id') );
+        }
+
+
+        session()->flash('flash_message', 'Projeto Atualizado com sucesso');
+
+        return redirect()->back();
     }
 
     /**
@@ -90,6 +130,12 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->users()->detach($project->users->lists('id'));
+
+        $project->delete();
+
+        session()->flash('flash_message', 'Projeto Removido com sucesso');
+
+        return redirect('projects');
     }
 }

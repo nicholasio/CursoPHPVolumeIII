@@ -34,6 +34,7 @@ class AdminAuth
         switch( $request->route()->getName() ) {
             case 'users.create':
             case 'users.store':
+            case 'users.destroy':
                 if ( ! $this->auth->user()->is_admin ) {
                     return new RedirectResponse( url('/users') );
                 }
@@ -41,11 +42,6 @@ class AdminAuth
             case 'users.edit':
             case 'users.update':
                 if ( ! $this->auth->user()->is_admin && $this->auth->user()->id != $this->user->id ) {
-                    return new RedirectResponse( url('/users') );
-                }
-                break;
-            case 'users.destroy':
-                if ( ! $this->auth->user()->is_admin ) {
                     return new RedirectResponse( url('/users') );
                 }
                 break;
@@ -62,6 +58,7 @@ class AdminAuth
                 if ( ! $this->auth->user()->is_admin ) {
                     return new RedirectResponse( url('/projects') );
                 }
+                break;
         }
 
         return $next($request);

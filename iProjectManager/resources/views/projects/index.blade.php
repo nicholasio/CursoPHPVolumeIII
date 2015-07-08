@@ -6,7 +6,9 @@
 
 @section('contentheader_title')
     Projetos Cadastrados
-    <a href="{{ url('projects/create') }}" class="btn btn-primary">Criar Novo</a>
+    @if ( Auth::user()->is_admin )
+        <a href="{{ url('projects/create') }}" class="btn btn-primary">Criar Novo</a>
+    @endif
 @endsection
 
 
@@ -17,17 +19,8 @@
                 <div class="box-header">
                     <h3 class="box-title">Lista de Projetos</h3>
 
-                    <div class="box-tools">
+                    @include('partials.search')
 
-                        <div class="input-group">
-                            <input type="text" placeholder="Search" style="width: 150px;"
-                                   class="form-control input-sm pull-right" name="table_search">
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
@@ -49,7 +42,14 @@
                                 <td>{{ $project->description }}</td>
                                 <td>{{ $project->created_at->format('d/m/Y à\s H:i:s') }}</td>
                                 <td>
+                                        <a href="{{ action('ProjectsController@show', $project->id) }}" class="btn btn-info">Ver</a>
+                                    @if ( Auth::user()->is_admin )
+                                        <a href="{{ action('ProjectsController@edit', $project->id) }}" class="btn btn-info">Editar</a>
 
+                                        {!! Form::open( [ 'route' => ['projects.destroy', $project->id], 'method' => 'delete', 'style' => 'display:inline' ] ) !!}
+                                        {!! Form::submit('Deletar', ['class' => 'btn btn-danger no-submit', 'data-toggle' => "modal", 'data-target' => ".modal-danger"]) !!}
+                                        {!! Form::close() !!}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -57,6 +57,11 @@
                     </table>
                 </div>
                 <!-- /.box-body -->
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    {!! $projects->render() !!}
+                </div>
+
             </div>
         </div>
     </div>

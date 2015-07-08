@@ -22,10 +22,12 @@ class UsersController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('users.index', compact('users') );
+        $search = $request->input('search');
+        $users = User::allOrSearch( 'name', $search )->paginate(10);
+
+        return view('users.index', compact('users', 'search') );
     }
 
     /**
@@ -110,7 +112,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        if ( ( $user->projects()->count() == 0  && $user->owner_projects()->count() == 0 ) && $user->delete() ) {
+        if ( ( $user->projects->count() == 0  && $user->owner_projects->count() == 0 ) && $user->delete() ) {
             session()->flash('flash_message', 'Usuário removido com sucesso' );
         } else {
             session()->flash('flash_message', 'Impossível remover Usuário. Usuário tem projetos Associados');
