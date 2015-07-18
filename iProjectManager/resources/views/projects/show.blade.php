@@ -29,9 +29,9 @@
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12">
-                <h4>Cliente</h4>
+                <h4>Cliente {{$project->client->name }}</h4>
                 <p class="text-muted no-shadow" style="margin-top: 10px;">
-                    Nome do Cliente: {!! $project->client->name !!}
+                    {!! $project->client->description !!}
                 </p>
                 <h4>Descrição</h4>
                 <p class="text-muted no-shadow" style="margin-top: 10px;">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="col-xs-12 table-responsive">
-                <h4>Usuários</h4>
+                <h4>Equipe</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -67,12 +67,26 @@
                     <thead>
                     <tr>
                         <th>Título</th>
-                        <th>Responsável</th>
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody>
-
-
+                        @foreach( $project->tasks as $task )
+                            <tr>
+                                <td>{{ $task->title }}</td>
+                                <td>
+                                    @if ( $task->status == App\Task::PENDING)
+                                        <span class="label label-warning">Pendente</span>
+                                    @else
+                                        <span class="label label-success">Finalizada</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ action('TasksController@show', $task->id) }}" class="btn btn-primary">Ver</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

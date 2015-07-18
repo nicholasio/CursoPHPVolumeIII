@@ -63,12 +63,6 @@
                 </table>
             </div>
 
-            <div class="col-sm-12 invoice-col">
-                Usuários trabalhando para esse cliente
-                <ul>
-                    <li>Nícholas</li>
-                </ul>
-            </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->

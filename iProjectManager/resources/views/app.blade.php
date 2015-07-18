@@ -84,6 +84,14 @@ desired effect
     </div><!-- /.modal-dialog -->
 </div>
 
+<div class="modal modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @include('partials.scripts')
 
 </body>

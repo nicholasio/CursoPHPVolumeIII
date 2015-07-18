@@ -26,6 +26,10 @@ class Project extends Model
         return $this->belongsToMany( 'App\User', 'projects_users' )->withTimestamps();
     }
 
+    public function tasks() {
+        return $this->hasMany( 'App\Task' );
+    }
+
     public function getUsersListAttribute()
     {
         return $this->users->lists('id')->toArray();

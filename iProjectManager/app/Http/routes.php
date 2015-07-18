@@ -33,6 +33,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::resource('clients', 'ClientsController');
     Route::resource('projects', 'ProjectsController');
+    Route::resource('tasks', 'TasksController');
+
+    Route::get('tasks/users/{tasks}', 'TasksController@showUsers');
+    Route::post('tasks/users/{tasks}', 'TasksController@storeUsers');
 
 });
 

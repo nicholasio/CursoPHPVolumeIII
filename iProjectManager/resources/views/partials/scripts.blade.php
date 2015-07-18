@@ -19,9 +19,12 @@
 
 
 <script>
-      $(function() {
+      function initComponents() {
             $(".textarea").wysihtml5();
             $('.select2').select2();
+      }
+      $(function() {
+            initComponents();
 
             $('.no-submit').click(function(formEvt) {
                   formEvt.preventDefault();
@@ -32,7 +35,16 @@
                   });
             });
 
-
-
+            /**
+             * Quando o modal para exibir os usuários de uma tarefa for carregado
+             * Iremos fazer uma requisição Ajax (Get) para carregar o conteúdo do atributo href do link
+             * que disparou o modal
+             */
+            $('.modal-default').on('show.bs.modal', function(e) {
+                  var link = $(e.relatedTarget);
+                  $(this).find('.modal-content').load(link.data('content'), function() {
+                        initComponents();
+                  });
+            });
       });
 </script>

@@ -29,7 +29,7 @@
     </div>
 
     <div class="form-group">
-        {!! Form::label('users_list', "Usuários: ", ['class' => 'col-sm-2 control-label']) !!}
+        {!! Form::label('users_list', "Equipe: ", ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
             {!! Form::select('users_list[]', $users, null , ['class' => 'form-control select2', 'multiple']) !!}
         </div>

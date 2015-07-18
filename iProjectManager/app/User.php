@@ -43,6 +43,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsToMany( 'App\Project', 'projects_users' )->withTimestamps();
     }
 
+    public function tasks() {
+        return $this->belongsToMany( 'App\Task', 'tasks_users')->withTimestamps();
+    }
+
     public function scopeIsAdmin($query)
     {
         return $query->where('is_admin', true);
