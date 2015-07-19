@@ -14,6 +14,10 @@ use App\Http\Controllers\Controller;
 
 class TasksController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('permissions');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,11 +51,11 @@ class TasksController extends Controller
      */
     public function store(TaskRequest $taskRequest)
     {
-        Task::create( $taskRequest->all() );
+        $task = Task::create( $taskRequest->all() );
 
         session()->flash('flash_message', 'Tarefa Criada com Sucesso');
 
-        return redirect('tasks');
+        return redirect( action('tasks.edit', $task->id) );
     }
 
     /**

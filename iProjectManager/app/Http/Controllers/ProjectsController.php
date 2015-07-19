@@ -17,7 +17,7 @@ class ProjectsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('admin_auth');
+        $this->middleware('permissions');
     }
 
     /**
