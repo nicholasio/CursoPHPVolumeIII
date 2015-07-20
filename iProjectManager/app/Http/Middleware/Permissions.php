@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\TaskRequest;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
@@ -66,7 +67,6 @@ class Permissions
                 }
                 break;
             case 'tasks.edit':
-            case 'tasks.store':
             case 'tasks.delete':
                 $taskRequest = new TaskRequest();
                 if ( ! $taskRequest->authorize() ) {
@@ -74,6 +74,16 @@ class Permissions
                     return new RedirectResponse( url('/tasks') );
                 }
                 break;
+            case 'comments.edit':
+            case 'comments.delete':
+                $commentsRequest = new CommentRequest();
+                if ( ! $commentsRequest->authorize() ) {
+                    session()->flash('flash_message', 'Sem permissão para acessar este recurso');
+                    return new RedirectResponse( back() );
+                }
+            break;
+
+
         }
 
         return $next($request);

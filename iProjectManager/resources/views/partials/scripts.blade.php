@@ -35,16 +35,5 @@
                   });
             });
 
-            /**
-             * Quando o modal para exibir os usuários de uma tarefa for carregado
-             * Iremos fazer uma requisição Ajax (Get) para carregar o conteúdo do atributo href do link
-             * que disparou o modal
-             */
-            $('.modal-default').on('show.bs.modal', function(e) {
-                  var link = $(e.relatedTarget);
-                  $(this).find('.modal-content').load(link.data('content'), function() {
-                        initComponents();
-                  });
-            });
       });
 </script>

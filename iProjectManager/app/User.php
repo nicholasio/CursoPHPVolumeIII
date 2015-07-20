@@ -35,16 +35,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
 
-    public function owner_projects() {
+    public function owner_projects()
+    {
         return $this->hasMany( 'App\Project', 'manager_user_id' );
     }
 
-    public function projects() {
+    public function projects()
+    {
         return $this->belongsToMany( 'App\Project', 'projects_users' )->withTimestamps();
     }
 
-    public function tasks() {
+    public function tasks()
+    {
         return $this->belongsToMany( 'App\Task', 'tasks_users')->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany( 'App\Comment' );
     }
 
     public function scopeIsAdmin($query)

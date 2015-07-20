@@ -35,8 +35,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('projects', 'ProjectsController');
     Route::resource('tasks', 'TasksController');
 
-    Route::get('tasks/users/{tasks}', 'TasksController@showUsers');
-    Route::post('tasks/users/{tasks}', 'TasksController@storeUsers');
-
+    Route::post('comments/{users}/{tasks}', ['as' => 'comments.store', 'uses' =>'CommentsController@store']);
+    Route::get('comments/{comments}', ['as' => 'comments.edit', 'uses' =>'CommentsController@edit']);
+    Route::delete('comments/{comments}', ['as' => 'comments.destroy', 'uses' =>'CommentsController@destroy']);
+    Route::put('comments/{comments}', ['as' => 'comments.update', 'uses' => 'CommentsController@update'] );
 });
 

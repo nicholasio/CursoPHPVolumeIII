@@ -16,7 +16,7 @@
     <div class="form-group">
         {!! Form::label('deadline', "Deadline: ", ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
-            {!! Form::date('deadline', \Carbon\Carbon::now(), ['class' => 'form-control']) !!}
+            {!! Form::date('deadline', null, ['class' => 'form-control']) !!}
         </div>
     </div>
 

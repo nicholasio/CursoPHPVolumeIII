@@ -12,19 +12,28 @@ class Task extends Model
     protected $fillable = ['title', 'description', 'deadline', 'status', 'date_end', 'project_id'];
     protected $dates = ['deadline', 'date_end'];
 
-    public function project() {
+    public function project()
+    {
         return $this->belongsTo( 'App\Project' );
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany( 'App\User', 'tasks_users')->withTimestamps();
     }
 
-    public function scopePending($query) {
+    public function comments()
+    {
+        return $this->hasMany( 'App\Comment' );
+    }
+
+    public function scopePending($query)
+    {
         return $query->where('status', Task::PENDING);
     }
 
-    public function scopeClosed($query) {
+    public function scopeClosed($query)
+    {
         return $query->where('status', TASK::CLOSED);
     }
 
@@ -33,8 +42,10 @@ class Task extends Model
         return $this->users->lists('id')->toArray();
     }
 
-    /*public function getDeadlineAttribute() {
-        return \Carbon\Carbon::createFromDate($this->attributes['deadline'])->format('d/m/Y');
-    }*/
+    public function getDeadlineAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['deadline'])->format('Y-m-d');
+    }
+
 
 }

@@ -41,6 +41,7 @@
 
             <div class="col-xs-12 table-responsive">
                 <h4>Equipe</h4>
+                <strong>Gerente de Projeto:</strong>{{ $project->manager->name }}
                 <table class="table table-striped">
                     <thead>
                     <tr>

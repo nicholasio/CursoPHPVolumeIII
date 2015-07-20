@@ -42,10 +42,9 @@
                                 <td>{{ $project->description }}</td>
                                 <td>{{ $project->created_at->format('d/m/Y à\s H:i:s') }}</td>
                                 <td>
-                                        <a href="{{ action('ProjectsController@show', $project->id) }}" class="btn btn-info">Ver</a>
+                                    <a href="{{ action('ProjectsController@show', $project->id) }}" class="btn btn-info">Ver</a>
                                     @if ( Auth::user()->is_admin )
                                         <a href="{{ action('ProjectsController@edit', $project->id) }}" class="btn btn-info">Editar</a>
-
                                         {!! Form::open( [ 'route' => ['projects.destroy', $project->id], 'method' => 'delete', 'style' => 'display:inline' ] ) !!}
                                         {!! Form::submit('Deletar', ['class' => 'btn btn-danger no-submit', 'data-toggle' => "modal", 'data-target' => ".modal-danger"]) !!}
                                         {!! Form::close() !!}

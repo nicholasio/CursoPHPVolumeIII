@@ -51,7 +51,7 @@ class ProjectsController extends Controller
         $users              = User::lists('name', 'id');
         $clients            = Client::lists('name', 'id');
 
-        return view('projects.create', compact('users', 'manager_users', 'clients'));
+        return view('projects.create', compact('users', 'manager_users' ,'clients'));
     }
 
     /**
