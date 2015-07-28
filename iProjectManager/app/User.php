@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\Searchable;
+use App\IPM\Traits\Searchable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -53,6 +53,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function comments()
     {
         return $this->hasMany( 'App\Comment' );
+    }
+
+    public function owner_tasks()
+    {
+        return $this->hasMany( 'App\Task', 'creator' );
     }
 
     public function scopeIsAdmin($query)

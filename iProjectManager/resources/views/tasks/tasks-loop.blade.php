@@ -1,7 +1,8 @@
-<table class="table table-hover">
+<table class="table table-hover dataTable">
     <thead>
     <tr>
         <th>ID</th>
+        <th>Criador</th>
         <th>Título</th>
         <th>Início</th>
         <th>Deadline</th>
@@ -13,9 +14,10 @@
     @foreach( $tasks as $task )
         <tr>
             <td>{{ $task->id }}</td>
+            <td>{{ $task->owner->name }}</td>
             <td>{{ $task->title }}</td>
             <td>{{ $task->created_at->format('d/m/Y à\s H:i:s') }}</td>
-            <td>{{ $task->deadline }}</td>
+            <td>{{ $task->formated_deadline }}</td>
             <td>
                 @if ( $task->status == App\Task::CLOSED )
                     {{ $task->date_end->format('d/m/Y') }}

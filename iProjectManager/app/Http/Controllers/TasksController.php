@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
@@ -38,7 +39,12 @@ class TasksController extends Controller
      */
     public function create()
     {
-        $projects = Project::lists('title', 'id');
+        if ( Auth::user()->is_admin ) {
+            $projects = Project::lists('title', 'id');
+        } else {
+            $projects = Auth::user()->projects->lists('title', 'id');
+        }
+
         $users    = User::lists('name', 'id');
         return view('tasks.create', compact('projects', 'users'));
     }
@@ -51,11 +57,14 @@ class TasksController extends Controller
      */
     public function store(TaskRequest $taskRequest)
     {
-        $task = Task::create( $taskRequest->all() );
+        $data = $taskRequest->all();
+        $data['creator'] = Auth::user()->id;
+
+        $task = Task::create( $data );
 
         session()->flash('flash_message', 'Tarefa Criada com Sucesso');
 
-        return redirect( action('tasks.edit', $task->id) );
+        return redirect( action('TasksController@edit', $task->id) );
     }
 
     /**
@@ -80,7 +89,9 @@ class TasksController extends Controller
     {
         $projects = Project::lists('title', 'id');
         $users    = User::lists('name', 'id');
-        $usersProject = $task->project->users->lists('name', 'id');
+
+        $usersProject = $task->project->users()->lists('name', 'id')->put(  $task->project->manager->id,
+                                                                            $task->project->manager->name );
 
         return view('tasks.edit', compact('task', 'users', 'projects', 'usersProject') );
     }
@@ -134,7 +145,8 @@ class TasksController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->users()->detach($task->users->lists('id'));
+        $task->users()->sync([]);
+        $task->comments()->delete();
 
         $task->delete();
 

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\Searchable;
+use App\IPM\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model

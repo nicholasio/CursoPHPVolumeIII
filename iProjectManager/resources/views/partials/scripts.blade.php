@@ -7,7 +7,8 @@
 
 <script src="{{ asset('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/plugins/select2/select2.min.js') }}" type="text/javascript"></script>
-
+<script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
 
@@ -34,6 +35,8 @@
                         $form.submit();
                   });
             });
+
+            $('.dataTable').dataTable();
 
       });
 </script>

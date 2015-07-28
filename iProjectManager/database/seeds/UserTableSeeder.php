@@ -12,7 +12,8 @@ class UserTableSeeder extends Seeder {
             'id' => 1,
             'name' => 'Nícholas André',
             'email'  => 'nicholas@iotecnologia.com.br',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('123456'),
+            'is_admin' => true
         ]);
 
         User::create( [

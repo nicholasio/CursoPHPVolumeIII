@@ -146,6 +146,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
+        Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class
 
     ],
 
@@ -196,6 +197,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Form'      => Collective\Html\FormFacade::class,
+        'Gravatar'  =>  Thomaswelton\LaravelGravatar\Facades\Gravatar::class
 
     ],
 

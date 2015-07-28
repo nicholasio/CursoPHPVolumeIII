@@ -18,7 +18,7 @@
             <div class="col-xs-12">
                 <h2 class="page-header">
                     <i class="fa fa-tasks"></i> {{ $task->title }}
-                    <small class="pull-right">Tarefa Criada em: {{ $task->created_at->format('d/m/Y à\s H:i:s') }}</small>
+                    <small class="pull-right">Tarefa Criada em: {{ $task->created_at->format('d/m/Y à\s H:i:s') }} por {{ $task->owner->name }}</small>
                 </h2>
             </div>
             <!-- /.col -->
@@ -36,8 +36,14 @@
                 </p>
 
                 <h4>Informações</h4>
-                <p><strong>Status:</strong> {{ $task->status }}</p>
-                <p><strong>Deadline:</strong> {{ $task->deadline }}</p>
+                <p><strong>Status:</strong>
+                    @if ( $task->status == App\Task::PENDING)
+                        <span class="label label-warning">Pendente</span>
+                    @else
+                        <span class="label label-success">Finalizada</span>
+                    @endif
+                </p>
+                <p><strong>Deadline:</strong> {{ $task->formated_deadline }}</p>
             </div>
 
 
@@ -74,10 +80,10 @@
                             @foreach( $task->comments as $comment )
                                 <!-- chat item -->
                                 <div class="item">
-                                    <img src="dist/img/user4-128x128.jpg" alt="user image" class="online">
+                                    <img src="{{ Gravatar::src( $comment->user->email ) }}" alt="user image" class="online">
                                     <p class="message">
                                         <a href="#" class="name">
-                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ $comment->updated_at->format('d/n/Y h:i:s') }}</small>
+                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ $comment->updated_at->format('d/m/Y h:i:s') }}</small>
                                             {{ $comment->user->name }}
                                         </a>
                                         {!! $comment->comment !!}

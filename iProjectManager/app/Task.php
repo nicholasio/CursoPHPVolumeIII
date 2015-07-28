@@ -9,8 +9,14 @@ class Task extends Model
     const PENDING   = 'PEN';
     const CLOSED    = 'CLO';
 
-    protected $fillable = ['title', 'description', 'deadline', 'status', 'date_end', 'project_id'];
+    protected $fillable = ['title', 'description', 'deadline', 'status', 'date_end', 'project_id', 'creator'];
     protected $dates = ['deadline', 'date_end'];
+
+
+    public function owner()
+    {
+        return $this->belongsTo( 'App\User', 'creator' );
+    }
 
     public function project()
     {
@@ -45,6 +51,11 @@ class Task extends Model
     public function getDeadlineAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['deadline'])->format('Y-m-d');
+    }
+
+    public function getFormatedDeadlineAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['deadline'])->format('d/m/Y');
     }
 
 

@@ -48,7 +48,9 @@ class UsersController extends Controller
      */
     public function store(UserRequest $userRequest)
     {
-        $user = new User( $userRequest->all() );
+        $data = $userRequest->all();
+        $data['password'] = bcrypt($data['password']);
+        $user = new User( $data );
 
         $user->save();
 

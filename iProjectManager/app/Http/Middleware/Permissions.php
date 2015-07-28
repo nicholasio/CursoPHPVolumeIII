@@ -33,6 +33,7 @@ class Permissions
     public function handle($request, Closure $next)
     {
 
+
         switch( $request->route()->getName() ) {
             case 'users.create':
             case 'users.store':
@@ -61,13 +62,8 @@ class Permissions
                     return new RedirectResponse( url('/projects') );
                 }
                 break;
-            case 'tasks.create':
-                if ( ! $this->auth->user()->is_admin ) {
-                    return new RedirectResponse( url('/tasks') );
-                }
-                break;
             case 'tasks.edit':
-            case 'tasks.delete':
+            case 'tasks.destroy':
                 $taskRequest = new TaskRequest();
                 if ( ! $taskRequest->authorize() ) {
                     session()->flash('flash_message', 'Sem permissão para acessar este recurso');
@@ -75,11 +71,11 @@ class Permissions
                 }
                 break;
             case 'comments.edit':
-            case 'comments.delete':
+            case 'comments.destroy':
                 $commentsRequest = new CommentRequest();
                 if ( ! $commentsRequest->authorize() ) {
                     session()->flash('flash_message', 'Sem permissão para acessar este recurso');
-                    return new RedirectResponse( back() );
+                    return back();
                 }
             break;
 

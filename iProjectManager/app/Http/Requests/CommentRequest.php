@@ -29,11 +29,18 @@ class CommentRequest extends Request
      */
     public function authorize()
     {
-        if ( ! is_null($this->user) && ! is_null($this->task) ) {
-            return Auth::user()->id == $this->user->id && ( $this->user->is_admin || $this->task->users->contains($this->user->id) );
-        } else if ( ! is_null($this->comment) ) { //Edit, Delete and Update Methods
-            return Auth::user()->is_admin || $this->comment->user->id == Auth::user()->id;
+        if ( Route::current()->getName() == 'comments.store') {
+            if ( ! is_null($this->user) && ! is_null($this->task) ) {
+                return Auth::user()->id == $this->user->id && ( $this->user->is_admin || $this->task->project->users->contains($this->user->id) );
+            }
+        } else {
+            if ( ! is_null($this->comment) ) { //Edit, Delete and Update Methods
+                return Auth::user()->is_admin || $this->comment->user->id == Auth::user()->id;
+            }
         }
+
+
+        return false;
     }
 
     /**
